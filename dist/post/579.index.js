@@ -1,7 +1,6 @@
-"use strict";
-exports.id = 579;
-exports.ids = [579];
-exports.modules = {
+export const id = 579;
+export const ids = [579];
+export const modules = {
 
 /***/ 6579:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
@@ -244,11 +243,14 @@ class EventStreamSerde {
                     serializer.write(eventSchema, event[unionMember]);
                 }
             }
+            else if (eventSchema.isUnitSchema()) {
+                serializer.write(eventSchema, {});
+            }
             else {
                 throw new Error("@smithy/core/event-streams - non-struct member not supported in event stream union.");
             }
         }
-        const messageSerialization = serializer.flush();
+        const messageSerialization = serializer.flush() ?? new Uint8Array();
         const body = typeof messageSerialization === "string"
             ? (this.serdeContext?.utf8Decoder ?? utilUtf8.fromUtf8)(messageSerialization)
             : messageSerialization;
@@ -267,5 +269,5 @@ exports.EventStreamSerde = EventStreamSerde;
 /***/ })
 
 };
-;
+
 //# sourceMappingURL=579.index.js.map
